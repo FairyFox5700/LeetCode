@@ -1,20 +1,23 @@
 public class Solution {
-        public int MaxProfit(int[] prices)
+    public int MaxProfit(int[] prices) {
+        var profit = 0;
+      
+        // the idea is that we will get the largest profit if the different is the largest, aka: first number should be the min
+        // assume that first is the min
+        var min = prices[0];
+        for(int i = 0; i < prices.Count(); i++)
         {
-            var maxProfit = 0;
-            var buy = int.MaxValue;
-            for (int i = 0; i < prices.Length; i++)
+            if(prices[i] < min) 
             {
-                if (buy > prices[i])
-                {
-                    buy = prices[i];
-                }
-                else if (prices[i] - buy > maxProfit)
-                {
-                    maxProfit = prices[i] - buy;
-                }
+                min = prices[i];
             }
-
-            return maxProfit;
+            else 
+            {
+                // calcualte profit
+                var  currentProfix =  prices[i] - min;
+                profit = Math.Max(profit,currentProfix);
+            }
         }
+        return profit;
+    }
 }
