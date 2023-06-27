@@ -12,14 +12,17 @@
  * }
  */
 public class Solution {
- public TreeNode InvertTree(TreeNode root)
+    public TreeNode InvertTree(TreeNode root) {
+        if( root == null)
         {
-            if (root == null) return null;
-            (root.right, root.left) = (root.left, root.right);
-
-            InvertTree(root.left);
-            InvertTree(root.right);
-
             return root;
         }
+        InvertTree(root.left);
+        InvertTree(root.right);
+        Console.WriteLine(root.val);
+        var temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+        return root;
+    }
 }
