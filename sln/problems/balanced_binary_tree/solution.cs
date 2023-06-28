@@ -12,24 +12,31 @@
  * }
  */
 public class Solution {
-   public bool IsBalanced(TreeNode root)
+
+    private int GetHeight(TreeNode root)
+    {
+        if(root == null)
         {
-            return DFS(root).Item1;
+            return 0;
         }
+        int leftHeight = GetHeight(root.left);
+        int rightHeight = GetHeight(root.right);
 
+        return Math.Max(leftHeight, rightHeight)+1;
+    }
 
-        //pre order traversal
-        (bool, int) DFS(TreeNode? node)
+    public bool IsBalanced(TreeNode root) {
+        if(root == null)
         {
-            if (node == null)
-            {
-                return (true, 0);
-            }
-            var left = DFS(node.left);
-            var right = DFS(node.right);
-
-
-            var balanced = left.Item1 && right.Item1 && Math.Abs(left.Item2 - right.Item2) <= 1;
-            return (balanced, 1 + Math.Max(left.Item2, right.Item2));
+            // already balanced
+            return true;
         }
+        // height of any node = 1 * max( heigh of its left child , height of tight child)
+        var leftHeight = GetHeight(root.left);
+        var rightHeight =  GetHeight(root.right);
+     
+        var isBalancedForNode = Math.Abs(leftHeight - rightHeight) >1? false: true;
+        // balanced for every node recursively
+        return isBalancedForNode && IsBalanced(root.left) && IsBalanced(root.right);
+    }
 }
