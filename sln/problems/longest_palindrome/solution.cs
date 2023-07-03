@@ -1,18 +1,35 @@
 public class Solution {
-   public int LongestPalindrome(string s) {
-        HashSet<char> mySet= new HashSet<char> ();
-        var len =0;
-        
-        for (int i=0; i < s.Length ; i++){
-            if (mySet.Contains(s[i])){
-                 mySet.Remove(s[i]);
-                 len += 2;
+    public int LongestPalindrome(string s) {
+        var temp = s.ToCharArray();
+        var dict = new Dictionary<char, int>();
+        for(int i= 0; i< temp.Count(); i++)
+        {
+            if(dict.ContainsKey(temp[i]))
+            {
+                dict[temp[i]]++;
             }
-            else mySet.Add(s[i]);
+            else
+            {
+                dict.Add(temp[i], 1);
+            }
         }
-        
-        if (mySet.Count > 0)
-            return len+1;
-        return len;
+        var result = 0;
+        int c = 0;
+        foreach(var val in dict.Values)
+        {
+            int remainder = val % 2;
+            if(val % 2 == 0)
+            {
+                result += val;
+            }
+            else
+            {
+                var div = val / 2;
+                result  += val -remainder;
+                c = 1;
+            }
+            
+        }
+        return result + c;
     }
 }
