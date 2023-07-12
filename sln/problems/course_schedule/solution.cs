@@ -1,62 +1,66 @@
-    public class Solution
-    {
-        private HashSet<int> visited;
-        private HashSet<int> checkedCourses;
-        // simle adjacency list
-        private Dictionary<int, List<int>> graph;
-
-        public bool CanFinish(int numCourses, int[][] prerequisites)
+public class Solution {
+   public bool CanFinish(int numCourses, int[][] prerequisites)
         {
-            //Create a graph from the given edges
-            graph = new();
-            for (int i = 0; i < numCourses; i++)
-                graph.Add(i, new());
-
-            foreach (var pre in prerequisites)
+            //In this question we have applied a simple logic that if there is a cycle then it is not possible to schedule the courses
+            var visited = new HashSet<int>();
+            var dict = new Dictionary<int, HashSet<int>>();
+            foreach (var prerequisite in prerequisites)
             {
-                var course = pre[0];
-                var req = pre[1];
-                graph[course].Add(req);
+                var course = prerequisite[0];
+                var prerequisiteCourse = prerequisite[1];
+
+                if (!dict.ContainsKey(course))
+                {
+                    dict[course] = new HashSet<int>();
+                }
+               if (!dict.ContainsKey(prerequisiteCourse))
+                {
+                    dict[prerequisiteCourse] = new HashSet<int>();
+                }
+
+                dict[course].Add(prerequisiteCourse);
             }
 
-            visited = new();
-            checkedCourses = new();
-            foreach (var course in graph.Keys)
+            foreach (var entry in dict)
             {
-                if (DFS(course) == false)
+                Console.WriteLine("Key: " + entry.Key + ", Value: " + string.Join(", ", entry.Value));
+            }
+            foreach( var course in dict.Keys)
+            {
+                if (!visited.Contains(course))
                 {
+                    if (!DFS(course, dict, visited))
+                    {
+                        return false;
+                    }
+                }
+               
+            }
+             return true;
+
+
+
+            bool DFS(int n, Dictionary<int,HashSet<int>> dict, HashSet<int> visited)
+            {
+                if (visited.Contains(n))
+                {
+                    //loop detected
                     return false;
                 }
-            }
-            return true;
-        }
-
-
-        private bool DFS(int course)
-        {
-            if (visited.Contains(course))
-            {
-                //we have found a cycle
-                return false;
-            }
-            //course without prerequisites
-            if (graph[course].Count == 0)
-            {
+                visited.Add(n);
+                foreach (var neighbour in dict[n])
+                {
+                    if (!DFS(neighbour, dict, visited))
+                    {
+                        return false;
+                    }
+                }
+                // remove from visited, as we can attent it without loops, thus we can finish this course
+                visited.Remove(n);
+                // empty list, to not check it again
+                dict[n] = new HashSet<int>();
                 return true;
             }
-            visited.Add(course);
-            foreach (var req in graph[course])
-            {
-                // if false for any of adjacent-> return false
-                if (DFS(req) == false)
-                {
-                    return false;
-                }
-            }
 
-            //remove requisites as we already passed this courses
-            graph[course] = new List<int>();
-            visited.Remove(course);
-            return true;
         }
-    }
+}
