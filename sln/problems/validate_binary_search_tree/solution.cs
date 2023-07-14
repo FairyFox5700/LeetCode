@@ -12,27 +12,33 @@
  * }
  */
 public class Solution {
-        public bool IsValidBST(TreeNode root)
+    public bool IsValidBST(TreeNode root) 
+    {
+        if( root == null)
         {
-            var result = true;
-            //check root
-            result &= IsValidBSTInternal(root,  double.MaxValue,double.MinValue);
-            return result;
+            return true;
         }
-
-        private bool IsValidBSTInternal(TreeNode root, double rightBound, double leftBound)
+        if(root.left == null && root.right == null)
         {
-            var result = true;
-            if (root == null)
+            return true;
+        }
+        return IsValid(root, long.MinValue, long.MaxValue);
+
+
+        bool IsValid(TreeNode? node,  long min, long max )
+        {
+ 
+            if(node== null)
             {
                 return true;
             }
-            if (root.val >= rightBound || root.val <= leftBound)
+        
+            if((min >= node.val) || ( max <=node.val ))
             {
-                return false;
+               return false; 
             }
-            result &= IsValidBSTInternal(root.left, root.val, leftBound);// must be lower then root
-            result &= IsValidBSTInternal(root.right, rightBound, root.val);// must be greater then root
-            return result;
+            return IsValid(node.left, min, node.val)
+            && IsValid( node.right, node.val, max );
         }
+    }
 }
