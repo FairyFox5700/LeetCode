@@ -11,35 +11,25 @@
  *     }
  * }
  */
-public class Solution {
-  public TreeNode MergeTrees(TreeNode root1, TreeNode root2)
+    public class Solution
+    {
+     public TreeNode MergeTrees(TreeNode root1, TreeNode root2)
         {
-            var val = 0;
+            // base cases:
             if (root1 == null && root2 == null)
             {
                 return null;
             }
-            if (root1 == null)
-            {
-                val = root2.val;
+            var firstval =  root2?.val??0;
+            Console.WriteLine(firstval);
+            var secval =  root1?.val??0;
+            Console.WriteLine(secval);
+            var result = firstval + secval;
+            var node = new TreeNode(result);
+            node.left = MergeTrees(root1?.left, root2?.left);
+            node.right = MergeTrees(root1?.right, root2?.right);
 
-            }
+            return node;
 
-            if (root2 == null)
-            {
-                val = root1.val;
-            }
-
-            if (root1 != null && root2 != null)
-            {
-                val = root1.val + root2.val;
-            }
-
-            var newNode = new TreeNode(val);
-            var left = MergeTrees(root1?.left, root2?.left);
-            var right = MergeTrees(root1?.right, root2?.right);
-            newNode.left = left;
-            newNode.right = right;
-            return newNode;
         }
-}
+    }
