@@ -11,28 +11,30 @@
  *     }
  * }
  */
-public class Solution {
- public int GoodNodes(TreeNode root)
+    public class Solution
+    {
+        private int Count = 0;
+        public int GoodNodes(TreeNode root)
         {
-            return DFS(root, Int32.MinValue);
+            var maxSoFar = Int32.MinValue;
+            DFS(root, maxSoFar);
+
+            return Count;
         }
 
-        private int DFS(TreeNode root, int maxVal)
+        private void DFS(TreeNode node, int max)
         {
-            if (root == null)
+            if (node == null)
             {
-                return 0;
+                return;
             }
 
-            int count = 0;
-            if (root.val >= maxVal)
+            if (node.val >= max)
             {
-                maxVal = root.val;
-                count += 1;
+                Count++;
             }
 
-            count +=  DFS(root.left, maxVal);
-            count += DFS(root.right, maxVal);
-            return count;
+            DFS(node.left, Math.Max(max, node.val));
+            DFS(node.right, Math.Max(max, node.val));
         }
-}
+    }
