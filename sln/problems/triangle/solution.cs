@@ -1,16 +1,17 @@
 public class Solution {
- public int MinimumTotal(IList<IList<int>> triangle)
+        public int MinimumTotal(IList<IList<int>> triangle)
         {
-            var dp = new int[triangle[^1].Count+1];
+            var dp = new int[triangle.Count + 1];
 
-            for (int j = triangle.Count - 1; j >= 0; j--)
+            for (int i = triangle.Count- 1; i >= 0; i--)
             {
-                var items = triangle[j];
-                for (int i = 0; i < items.Count; i++)
+                var list = triangle[i];
+                for (int j = 0; j < list.Count; j++)
                 {
-                    dp[i] = items[i] + Math.Min(dp[i], dp[i + 1]);
+                    dp[j] = Math.Min(dp[j], dp[j + 1]) + list[j];
                 }
             }
+
             return dp[0];
         }
 }
