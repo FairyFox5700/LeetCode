@@ -1,54 +1,44 @@
 public class Solution {
-        private HashSet<(int, int)> visisted = new();
-        private Queue<(int, int)> queue = new Queue<(int, int)>();
-
         public int NumIslands(char[][] grid)
         {
-            var count = 0;
-            for (int r = 0; r < grid.Length; r++)
+            var queue = new Queue<(int, int)>();
+            var visited = new HashSet<(int, int)>();
+            var islands = 0;
+
+            for (int i = 0; i < grid.Length; i++)
             {
-                for (int c = 0; c < grid[0].Length; c++)
+                for (int j = 0; j < grid[0].Length; j++)
                 {
-
-                    if (!visisted.Contains((r, c)) && grid[r][c] == '1')
+                    if (grid[i][j] == '1' && !visited.Contains((i, j)))
                     {
-
-                        queue.Enqueue((r, c));
-                        visisted.Add((r, c));
-                        BFS(grid);
-                        count += 1;
+                        queue.Enqueue((i, j));
+                        visited.Add((i, j));
+                        BFS(grid, i, j, visited, queue);
+                        islands++;
                     }
-
                 }
             }
-
-            return count;
+            // mark first node ( root) as visited and add to queue
+            return islands;
         }
 
-        public void BFS(char[][] grid)
+                 private void BFS(char[][] grid, int i, int j, HashSet<(int,int)> visited, Queue<(int, int)> queue)
         {
+            int[] dx = { 1, -1, 0, 0 };
+            int[] dy = { 0, 0, 1, -1 };
             while (queue.Count > 0)
             {
-                var (r, c) = queue.Dequeue();
-                var directions = new List<(int, int)>()
+                var (x, y) = queue.Dequeue();
+                for (int k = 0; k < 4; k++)
                 {
-                    (r, c + 1),
-                    (r, c - 1),
-                    (r + 1, c),
-                    (r - 1, c)
-                };
+                    int newX = x + dx[k];
+                    int newY = y + dy[k];
 
-                foreach (var (dr, dc) in directions)
-                {
-                    r =dr;
-                    c = dc;
-                    if (r >= 0 && r < grid.Length
-                               && c >= 0 && c < grid[0].Length
-                               && grid[r][c] == '1'
-                               && !visisted.Contains((r, c)))
+                    if (newX >= 0 && newX < grid.Length && newY >= 0 && newY < grid[0].Length &&
+                        grid[newX][newY] == '1' && !visited.Contains((newX, newY)))
                     {
-                        queue.Enqueue((r, c));
-                        visisted.Add((r, c));
+                        queue.Enqueue((newX, newY));
+                        visited.Add((newX, newY));
                     }
                 }
             }
