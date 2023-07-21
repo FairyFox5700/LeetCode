@@ -1,132 +1,79 @@
 public class Solution {
-        private int[] _inDegrees;
-
-        private List<int> _coursesInOrder;
-        Queue<int> zeroInDegreeQueue = new Queue<int>();
-        // simle adjacency list
-        private Dictionary<int, List<int>> graph;
-
-        public int[] FindOrder(int numCourses, int[][] prerequisites) 
+  public int[] FindOrder(int numCourses, int[][] prerequisites)
         {
-            //Create a graph from the given edges
-            graph = new();
-            _inDegrees = new int[numCourses];
+            var graph = new Dictionary<int, List<int>>();
             for (int i = 0; i < numCourses; i++)
-                graph.Add(i, new());
-
-            foreach (var pre in prerequisites)
             {
-                var course = pre[0];
-                var req = pre[1];
-                graph[course].Add(req);
-                _inDegrees[req]++;
-            }
-
-            _coursesInOrder = new();
-            foreach (var course in graph.Keys)
-            {
-                if (_inDegrees[course] == 0)
+                if (!graph.ContainsKey(i))
                 {
-                    zeroInDegreeQueue.Enqueue(course);
-                    _coursesInOrder.Add(course);
+                    graph.Add(i, new List<int>());
                 }
             }
-            Search();
-            _coursesInOrder.Reverse();
-            if(_coursesInOrder.Count<0 || _coursesInOrder.Count != numCourses)
-            {
-                return new int[0];
-            }
-        
-            return _coursesInOrder.ToArray();
-        }
 
-
-        private void Search()
-        {
-            while (zeroInDegreeQueue.Count > 0)
+            BuildGraph(prerequisites, graph);
+            var visited = new HashSet<int>();
+            var path = new HashSet<int>();
+            var output = new List<int>();
+  
+            for(int index = 0; index < numCourses; index++)
             {
-                var el = zeroInDegreeQueue.Dequeue();
-                
-                foreach (var req in graph[el])
+                if (!visited.Contains(index))
                 {
-                    _inDegrees[req]--;
-                    if (_inDegrees[req] == 0)
+                    if(!DFS(index, graph,  path, output, visited))
                     {
-                        zeroInDegreeQueue.Enqueue(req);
-                        _coursesInOrder.Add(req);
+                        return new int[0];
                     }
                 }
             }
 
-}
-}
-  /*  private ColoringStates[] _coloringStates;
-
-    private List<int> _coursesInOrder;
-        // simle adjacency list
-    private Dictionary<int, List<int>> graph;
-    public int[] FindOrder(int numCourses, int[][] prerequisites) {
-        
-            //Create a graph from the given edges
-            graph = new();
-            for (int i = 0; i < numCourses; i++)
-                graph.Add(i, new());
-
-            foreach (var pre in prerequisites)
-            {
-                var course = pre[0];
-                var req = pre[1];
-                graph[course].Add(req);
-            }
-
-            _coloringStates = new ColoringStates[numCourses];
-            _coursesInOrder = new ();
-            foreach (var course in graph.Keys)
-            {
-                if (DFS(course) == false)
-                {
-                    return new int[0];
-                }
-            }
-
-            return _coursesInOrder.ToArray();
+            return output.ToArray();
         }
 
-
-        private bool DFS(int course)
+        private bool DFS(int n, Dictionary<int,List<int>> graph, HashSet<int> cycle, List<int> output, HashSet<int> visited)
         {
-            if (_coloringStates[course] == ColoringStates.Temp)
+            if (cycle.Contains(n))
             {
-                //we have found a cycle
                 return false;
             }
-            //course already visited
-            if (_coloringStates[course] == ColoringStates.Visited)
+
+            if (visited.Contains(n))
             {
                 return true;
             }
 
-            _coloringStates[course] = ColoringStates.Temp;
-            foreach (var req in graph[course])
+            cycle.Add(n);
+            var adjacent = graph[n];
+            foreach(var adj in adjacent)
             {
-                // if false for any of adjacent-> return false
-                if (DFS(req) == false)
+                if(!DFS(adj, graph, cycle, output, visited))
                 {
                     return false;
                 }
             }
 
-            _coloringStates[course] = ColoringStates.Visited;
-            _coursesInOrder.Add(course);
+            output.Add(n);
+            cycle.Remove(n);
+            visited.Add(n);
             return true;
         }
-    }
 
- public enum ColoringStates
-    {
-        Unvisited,
-        Temp,
-        Visited,
+        private static void BuildGraph(int[][] prerequisites, Dictionary<int, List<int>> graph)
+        {
+            foreach (var pair in prerequisites)
+            {
+                var course = pair[0];
+                var prequisite = pair[1];
+                if (!graph.ContainsKey(course))
+                {
+                    graph.Add(course, new List<int>());
+                }
 
-    }*/
+                if (!graph.ContainsKey(prequisite))
+                {
+                    graph.Add(prequisite, new List<int>());
+                }
+
+                graph[course].Add(prequisite);
+            }
+        }
+}
