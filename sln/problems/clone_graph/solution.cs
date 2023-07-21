@@ -2,7 +2,7 @@
 // Definition for a Node.
 public class Node {
     public int val;
-    public IList<Node> neighbors;
+    public IList<Node> neighborsneighbors;
 
     public Node() {
         val = 0;
@@ -22,24 +22,30 @@ public class Node {
 */
 
 public class Solution {
-        private Dictionary<int, Node> hashSet = new Dictionary<int, Node>();
-        public Node CloneGraph(Node node)
+    public Node CloneGraph(Node node) {
+        if(node == null)
         {
-            if(node==null) return null;
-            var clone = new Node(node.val);
-            hashSet.Add(node.val, clone);
-            foreach (var neighbour in node.neighbors)
+            return null;
+        }
+        var visited = new Dictionary<Node, Node>();
+        Node DFS(Node node) 
+        {
+            if(visited.ContainsKey(node))
             {
-                if (hashSet.ContainsKey(neighbour.val))
-                {
-                    clone.neighbors.Add(hashSet[neighbour.val]);
-                }
-                else
-                {
-                    clone.neighbors.Add(CloneGraph(neighbour));
-                }
+                // already visited
+                return visited[node] ;
+            }
+            // else clone node
+            var newNode = new Node(node.val);
+            visited[node] = newNode;
+            foreach(var nodev in node.neighbors)
+            {
+                newNode.neighbors.Add(DFS(nodev));
             }
 
-            return clone;
+            return newNode;            
         }
+        
+        return DFS(node);
+    }
 }
