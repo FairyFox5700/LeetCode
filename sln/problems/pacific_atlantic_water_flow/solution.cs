@@ -1,63 +1,51 @@
-public class Solution {
-        HashSet<(int, int)> visited = new HashSet<(int, int)>();
-        HashSet<(int, int)> visited2 = new HashSet<(int, int)>();
-
+    public class Solution
+    {
         public IList<IList<int>> PacificAtlantic(int[][] heights)
         {
-            // bfs from left
-            // bfs from bottom
-
-            int row = heights.Length;
-            int column = heights[0].Length;
-
-            for (int c = 0; c < column; c++)
+            //417. Pacific Atlantic Water Flow
+            var result = new List<IList<int>>();
+            var pacific = new HashSet<(int, int)>();
+            var atlantic = new HashSet<(int, int)>();
+            var colLenght = heights[0].Length;
+            var rowLenght =  heights.Length;
+            // for atlantic
+            for (int c = 0; c < colLenght; c++)
             {
-                // starting from top row
-                DFS(0, c, heights, visited, Int32.MinValue);
-                //starting from end row
-                DFS(row-1, c, heights, visited2, Int32.MinValue);
+                DFS(0, c, heights, pacific, int.MinValue);
+                DFS(rowLenght -1 , c, heights, atlantic, int.MinValue);
             }
-
-            for (int r = 0; r < row; r++)
+            // for pacific row = 0 and col = 0
+            for (int r = 0; r <rowLenght; r++)
             {
-                // starting from first colomn to the east
-                DFS(r, 0, heights, visited, Int32.MinValue);
-                //starting from end colomn to the west
-                DFS(r, column - 1, heights, visited2, Int32.MinValue);
+                DFS(r, 0, heights, pacific, int.MinValue);
+                DFS(r, colLenght - 1, heights, atlantic, Int32.MinValue);
             }
-
-
-            IList<IList<int>> result = new List<IList<int>>();
-            for (int r = 0; r <row; r++)
-            {
-                for (int c = 0; c < column; c++)
-                {
-                    if (visited.Contains((r, c)) && visited2.Contains((r, c)))
-                    {
-
-                        IList<int> Coordinate = new List<int>();
-                        Coordinate.Add(r);
-                        Coordinate.Add(c);
-                        result.Add(Coordinate);
-                    }
-                }
-            }
-
-            return result;
+        
+            return pacific.Where(p=>atlantic.Contains(p)).Select(p=>(IList<int>)new List<int>{p.Item1,p.Item2}).ToList();
         }
 
-        public void DFS(int r, int c, int[][] heights, HashSet<(int, int)> visited2, int prevHeights)
+        private void DFS(int r, int c, int[][] heights, HashSet<(int, int)> visited, int prevHeight)
         {
-            if (r >= 0 && r < heights.Length
-                       && c >= 0 && heights[0].Length > c
-                       && !visited2.Contains((r, c))
-                       && heights[r][c] >= prevHeights)
+            // validaity check in bounds
+            if (r < 0 || r >= heights.Length || c < 0 || c >= heights[0].Length)
             {
-                visited2.Add((r, c));
-                DFS(r, c + 1, heights, visited2, heights[r][c]);
-                DFS(r, c - 1, heights, visited2, heights[r][c]);
-                DFS(r + 1, c, heights, visited2, heights[r][c]);
-                DFS(r - 1, c, heights, visited2, heights[r][c]);
+                return;
             }
+
+            if (visited.Contains((r, c)))
+            {
+                return;
+            }
+
+            if (heights[r][c] < prevHeight)
+            {
+                return;
+            }
+
+            visited.Add((r, c));
+            DFS(r + 1, c, heights, visited, heights[r][c]);
+            DFS(r - 1, c, heights, visited, heights[r][c]);
+            DFS(r, c + 1, heights, visited, heights[r][c]);
+            DFS(r, c - 1, heights, visited, heights[r][c]);
         }
-}
+    }
