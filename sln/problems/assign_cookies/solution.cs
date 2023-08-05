@@ -1,26 +1,35 @@
-public class Solution {
+    public class Solution
+    {
+
+        /*
+        Greedy Strategy:
+Sort both the arrays g[] and s[] in ascending order. Start iterating through the sorted arrays, and for each child, try to find the smallest cookie that can satisfy their greed factor. If such a cookie exists, assign it to the child and move on. If not, move to the next child.
+*/
         public int FindContentChildren(int[] g, int[] s)
         {
-            var count = 0;
-            Array.Sort(g);
-            Array.Sort(s);
-            var gPointer = 0;
-            var sPointer = 0;
-            while (sPointer <= s.Length - 1 && gPointer <= g.Length - 1)
+            if(g.Length == 0 || s.Length == 0) return 0;
+            var kids = g.OrderBy(x => x).ToArray();
+            var cookies = s.OrderBy(x => x).ToArray();
+
+            var ans  = 0;
+            var currentCookie = 0;
+            for (int i = 0; i < kids.Length; i++)
             {
-                if (g[gPointer] <= s[sPointer])
+                // we tend to give the smallest cookie to the smallest kid
+                while (currentCookie < cookies.Length)
                 {
-                    // we are good to add cookie to this person.
-                    count++;
-                    sPointer++;
-                    gPointer++;
-                }
-                else
-                {
-                    //find bigger cookie
-                    sPointer++;
+                    if (cookies[currentCookie] >= kids[i])
+                    {
+                        ans++;
+                        currentCookie++;
+                        break;
+                    }
+                    else{
+                         currentCookie++;
+                    }
                 }
             }
-            return count;
+
+            return ans;
         }
-}
+    }
