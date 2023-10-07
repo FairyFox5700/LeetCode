@@ -11,20 +11,28 @@
  *     }
  * }
  */
-public class Solution {
-  public TreeNode SortedArrayToBST(int[] nums)
+    public class Solution
+    {
+        public TreeNode SortedArrayToBST(int[] nums)
         {
-            return SortToBSTInternal(nums, 0, nums.Length-1);
+            if (nums.Count() == 0)
+            {
+                return null;
+            }
+
+            return InOrder(0, nums.Length, nums);
         }
 
-       private TreeNode SortToBSTInternal(int[] nums, int begining, int end)
+        private TreeNode InOrder(int begining, int end, int[] nums)
         {
-            if (begining > end)
+            if (begining >= end)
+            {
                 return null;
+            }
             var mid = (begining + end) / 2;
-            var node = new TreeNode(nums[mid]);
-            node.left = SortToBSTInternal(nums, begining, mid - 1);
-            node.right = SortToBSTInternal(nums, mid + 1, end);
-            return node;
+            var root = new TreeNode(nums[mid]);
+            root.left = InOrder(begining, mid, nums);
+            root.right = InOrder(mid+1, end, nums);
+            return root;
         }
-}
+    }
