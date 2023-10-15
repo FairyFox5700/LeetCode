@@ -44,11 +44,6 @@
                 }
             }
 
-            if (currentMinWeightNode == -1)
-            {
-                break; // No more nodes to visit.
-            }
-
             cost += currentMinCost;
             visited.Add(currentMinWeightNode);
 
