@@ -1,9 +1,103 @@
-        public class Solution
+       public class Solution
     {
 
         //optimized prim
 
+        private record Edge(int Point1, int Point2, int Weight);
 
+        public int MinCostConnectPoints(int[][] points)
+        {
+            var listEdge = new List<Edge>();
+            for (int i = 0; i < points.Length; i++)
+            {
+                for (int j = i + 1; j < points.Length; j++)
+                {
+                    listEdge.Add(new Edge(i, j, ManhattanDistance(points[i], points[j])));
+                }
+            }
+
+            listEdge = listEdge.OrderBy(e => e.Weight).ToList();
+            var uf = new UnionFind(points.Length);
+            var cost = 0;
+            var usedNodes = 0;
+            foreach (var edge in listEdge)
+            {
+                if (!uf.Union(edge.Point1, edge.Point2))
+                {
+                    usedNodes++;
+                    cost += edge.Weight;
+                }
+            }
+
+            return cost;
+        }
+
+
+        public class UnionFind
+        {
+            private int[] _parents;
+            private int[] _rank;
+
+            public UnionFind(int size)
+            {
+                _parents = new int[size];
+                _rank = new int[size];
+
+                for (int i = 0; i < size; i++)
+                {
+                    _parents[i] = i;
+                }
+            }
+
+
+            private int FindParent(int v)
+            {
+                while (v != _parents[v])
+                {
+                    v = _parents[v];
+                }
+
+                return v;
+            }
+
+            public bool Union(int v1, int v2)
+            {
+                var p1 = FindParent(v1);
+                var p2 = FindParent(v2);
+
+                if (p1 != p2)
+                {
+                    if (_rank[p1] > _rank[p2])
+                    {
+                        _parents[p2] = p1;
+                        _rank[p1]++;
+                    }
+                    else
+                    {
+                        _parents[p1] = p2;
+                        _rank[p2]++;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+
+                return false;
+
+
+
+            }
+        }
+
+        private int ManhattanDistance(int[] point1, int[] point2)
+        {
+            return Math.Abs(point1[0] - point2[0]) + Math.Abs(point1[1] - point2[1]);
+        }
+    }
+ /* public class Solution
+    {
+        //optimized prim
         private record Node(int node, int distance);
         public int MinCostConnectPoints(int[][] points)
         {
@@ -87,7 +181,7 @@
             return Math.Abs(point1[0] - point2[0]) + Math.Abs(point1[1] - point2[1]);
         }
     }
-
+*/
 
 /*    public class Solution
         {
