@@ -10,7 +10,7 @@
          {
              return nums.ToList();
          }
-         for (int i = nums.Length - 1; i >= 1; i--)
+         for (int i = nums.Length - 1; i >= 0; i--)
          {
              result.Add(nums[i]);
              currentSum += nums[i];
@@ -18,11 +18,7 @@
              {
                  return result;
              }
-             if (currentSum + nums[i - 1] > sum - currentSum - nums[i - 1])
-             {
-                 result.Add(nums[i - 1]);
-                 return result;
-             }
+   
          }
 
          return result;
