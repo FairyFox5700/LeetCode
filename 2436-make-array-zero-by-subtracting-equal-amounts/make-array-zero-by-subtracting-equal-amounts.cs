@@ -2,6 +2,19 @@
     {
         public int MinimumOperations(int[] nums)
         {
+
+            var hashSet = new HashSet<int>();
+            for (int i = 0; i < nums.Length; i++)
+            {
+                if(nums[i]!=0)
+                    hashSet.Add(nums[i]);
+            }
+
+            return hashSet.Count;
+        }
+        /*
+        public int MinimumOperations(int[] nums)
+        {
             var queue = new PriorityQueue<int, int>();
             for (int i = 0; i < nums.Length; i++)
             {
@@ -58,7 +71,7 @@
     https://prepfortech.in/leetcode-solutions/make-array-zero-by-subtracting-equal-amounts/
     //https://www.geeksforgeeks.org/minimum-operations-for-reducing-array-to-0-by-subtracting-smaller-element-from-a-pair-repeatedly/
         }
-    }*/
+    }
 
-        }
+        }*/
     }
