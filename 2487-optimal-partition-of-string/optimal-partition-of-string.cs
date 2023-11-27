@@ -13,13 +13,11 @@ public class Solution {
                 if (chars.Contains(c))
                 {
                     result++;
-                    chars = new HashSet<char>() { c };
+                    chars = new HashSet<char>() { };
 
                 }
-                else
-                {
-                    chars.Add(c);
-                }
+                chars.Add(c);
+             
             }
 
             return result;
