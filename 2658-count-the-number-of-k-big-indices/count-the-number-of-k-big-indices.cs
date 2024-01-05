@@ -9,13 +9,11 @@
             {
                 if(pq.Count == k && pq.Peek() < nums[i])
                 {  
-                    Console.WriteLine(nums[i]);
                     hashSet.Add(i);
                 }
                     pq.Enqueue(nums[i], nums[i]);
                     if(pq.Count > k) 
                     { 
-                        Console.WriteLine("here");
                         pq.Dequeue(); 
                     }
               
