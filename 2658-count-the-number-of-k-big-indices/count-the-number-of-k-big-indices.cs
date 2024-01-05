@@ -1,23 +1,44 @@
-public class Solution {
-    public int KBigIndices(int[] nums, int k) {
-        int res = 0, n = nums.Length;
-        bool[] arr = new bool[n];
-        PriorityQueue<int,int> pq = new();
-        for(int i = 0; i < n; i++){
-            if(pq.Count == k && pq.Peek() < nums[i])
-                arr[i] = true;
-            pq.Enqueue(nums[i], -nums[i]);
-            if(pq.Count > k)
-                pq.Dequeue();
+    public class Solution
+    {
+        public int KBigIndices(int[] nums, int k)
+        {
+            var pq = new PriorityQueue<int,int>(Comparer<int>.Create((a,b) => b-a));
+            var hashSet = new HashSet<int>();
+            //3,8,4,2,5,3,8,6
+            for(int i = 0; i < nums.Length; i++)
+            {
+                if(pq.Count == k && pq.Peek() < nums[i])
+                {  
+                    Console.WriteLine(nums[i]);
+                    hashSet.Add(i);
+                }
+                    pq.Enqueue(nums[i], nums[i]);
+                    if(pq.Count > k) 
+                    { 
+                        Console.WriteLine("here");
+                        pq.Dequeue(); 
+                    }
+              
+               
+                
+            }
+
+            pq.Clear();
+            var count =0;
+            for(int i = nums.Length - 1; i>=0; i--)
+            {
+                if(pq.Count == k && pq.Peek() < nums[i]&& hashSet.Contains(i))
+                {  
+                    count++;
+                }
+             pq.Enqueue(nums[i], nums[i]);
+                    if(pq.Count > k) 
+                    {
+                        pq.Dequeue();
+                    }
+             
+            }
+
+            return count;
         }
-        pq.Clear();
-        for(int i = n-1; i >= 0; i--){
-            if(arr[i] && pq.Count == k && pq.Peek() < nums[i])
-                res++;
-            pq.Enqueue(nums[i], -nums[i]);
-            if(pq.Count > k)
-                pq.Dequeue();
-        }
-        return res;
     }
-}
