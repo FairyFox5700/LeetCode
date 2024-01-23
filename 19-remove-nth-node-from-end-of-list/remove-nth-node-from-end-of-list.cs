@@ -2,22 +2,26 @@
     {
         public ListNode RemoveNthFromEnd(ListNode head, int n)
         {
-            var current = head;
-            if (current.next == null) // if there is only one node in the list
+           
+            if (head == null) 
             {
                 return null;
             }
-            // head = [1,2], n = 2
+            var current = head;
             while (current.next != null && n>0)
             {
                 current = current.next;
                 n--;
             }
-            var nodeToRemove = head;
-            if(n>0 && current.next == null)
+           
+            if(n>0 && current.next == null) // reached to the end already
+            // then only option to remove the item form the list begining
             {
                 return head.next;
             }
+
+            // if no we move with a gap of n , untill the end of the list
+            var nodeToRemove = head;
             while (current.next!=null)// until the end of list
             {
                 nodeToRemove= nodeToRemove.next;
