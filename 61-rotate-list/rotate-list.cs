@@ -19,7 +19,6 @@
 
             var current = head;
             var skip = count-(k%(count+1));
-             Console.WriteLine(skip);
             while ((skip)>0)
             {
                 current = current.next;
