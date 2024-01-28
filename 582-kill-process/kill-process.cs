@@ -10,7 +10,6 @@
                 {
                     dict.Add(ppid[i], new List<int>());
                 }
-                Console.WriteLine("ppid;" +ppid[i]  +"p:" + pid[i]);
                 dict[ppid[i]].Add(pid[i]);
             }
 
