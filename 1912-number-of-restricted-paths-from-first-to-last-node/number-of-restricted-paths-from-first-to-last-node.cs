@@ -44,7 +44,7 @@ public class Solution
             if (dist[adj.node] < dist[current])
             {
                 paths += DFS(adj.node, target, graph, dp, dist);
-                paths %= 1000000007; // Correct modulo
+                paths %=1000000007;
             }
         }
 
