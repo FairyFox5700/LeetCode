@@ -43,8 +43,8 @@ public class Solution
         {
             if (dist[adj.node] < dist[current])
             {
-                paths += DFS(adj.node, target, graph, dp, dist);
-                paths %=1000000007;
+                paths += (DFS(adj.node, target, graph, dp, dist));
+                paths %= 1000000007;
             }
         }
 
@@ -78,7 +78,7 @@ public class Solution
         return distances;
     }
 
-    
+
 
     // Main method for testing omitted for brevity
 }
