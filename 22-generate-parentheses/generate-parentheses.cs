@@ -33,8 +33,6 @@
                 return;
             }
 
-     Console.WriteLine(currentString);
-
             if (leftCount < n)
             {
                 // still can add left braces
