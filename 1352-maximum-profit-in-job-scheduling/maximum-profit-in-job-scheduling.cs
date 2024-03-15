@@ -34,8 +34,8 @@
         private int[] memo;
         public int JobScheduling(int[] startTime, int[] endTime, int[] profit)
         {
-            memo = new int [profit.Length];
-            Array.Fill(memo, -1);
+            memo = new int [profit.Length+1];
+            Array.Fill(memo, 0);
             var jobs = new List<Job>();
             for (int i = 0; i < startTime.Length; i++)
             {
@@ -51,29 +51,27 @@
 
             // for each job we are calculating the max profit
             // of scheduling it, or skiping it
-            return JobsMaxProfit(jobs, 0);
+            return JobsMaxProfit(jobs);
         }
 
-        private int JobsMaxProfit(List<Job> jobs, int jobIndex)
+        //bottomUp
+        private int JobsMaxProfit(List<Job> jobs)
         {
-            if (jobIndex == -1 || jobIndex >= jobs.Count)
-            {
-                return 0;
-            }
 
-            if (memo[jobIndex] != -1)
-            {
-                return memo[jobIndex];
-            }
+        for (int i = jobs.Count - 1; i >= 0; i--)
+    {
+        int profitWithCurrentJob = jobs[i].Profit;
+        int nextJobIndex = GetNextJob(jobs, jobs[i].EndTime, i + 1, jobs.Count - 1);
+        if (nextJobIndex != -1) {
+            profitWithCurrentJob += memo[nextJobIndex]; // Add profit from scheduling the next non-conflicting job
+        }
+        
+        memo[i] = Math.Max(memo[i + 1], profitWithCurrentJob); // Max profit of skipping or taking the current job
+        
+        // Debugging output, can be removed in production
+        Console.WriteLine("Job Index: " + i + ", Profit: " + memo[i]);
+    }
 
-            var endTimeOfJob = jobs[jobIndex].EndTime;
-            var nextJob = GetNextJob(jobs, endTimeOfJob, jobIndex+1, jobs.Count-1);
-            // take or not to take
-            memo[jobIndex] = Math.Max(0 + JobsMaxProfit(jobs, jobIndex + 1),
-                jobs[jobIndex].Profit + JobsMaxProfit(jobs, nextJob));
-
-            Console.WriteLine("jIn:" + jobIndex + " profit:" + memo[jobIndex]);
-
-            return memo[jobIndex];
+            return memo[0];
         }
     }
