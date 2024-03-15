@@ -13,7 +13,6 @@
             for (int i = 0; i < nums.Length; i++)
             {
                 maxReach = Math.Max(maxReach, i + nums[i]);
-                Console.WriteLine(maxReach);
 
                 if(target<=maxReach)
                 {
