@@ -17,8 +17,8 @@
             var currentTotal = 0L;
             for (int i = 0; i < pairs.Count; i++)
             {
-                Console.WriteLine("i: " + i);
-        while (pq.Count < k && i < pairs.Count)
+            
+            while (pq.Count < k && i < pairs.Count)
             {
                 pq.Enqueue(pairs[i], pairs[i].Item1);
                 currentTotal += pairs[i].Item1;
