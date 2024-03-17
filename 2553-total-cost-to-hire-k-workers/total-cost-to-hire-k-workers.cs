@@ -29,15 +29,11 @@
                 tail = n - 1 - candidates; // next tail
                 for (int i = 0; i < k; i++)
                 {
-                    Console.WriteLine("head: " + head);
-                    Console.WriteLine("tail: " + tail);
                     var (index, cost) = pq.Dequeue();
-                    Console.WriteLine("index: " + index);
                     if (head <= tail)
                     {
                         if (index == 1)
                         {
-                            Console.WriteLine("costs[head]: " + costs[head]);
                             pq.Enqueue((1, costs[head]),( costs[head], 1));
                             head++;
                         }
