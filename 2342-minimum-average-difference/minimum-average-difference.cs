@@ -9,7 +9,6 @@ public class Solution {
         long[] suffixSum = new long[n + 1];
 
         for (int index = 1; index <= n; index++) {
-            Console.WriteLine(index);
             prefixSum[index] = prefixSum[index-1] + nums[index-1];
         }
 
@@ -17,7 +16,7 @@ public class Solution {
             suffixSum[index- 1] = suffixSum[index] + nums[index-1];
         }
 
-        for (int index = 0; index < n; ++index) {
+        for (int index = 0; index < n; index++) {
             // Calculate average of left part of array, index 0 to i.
             long leftPartAverage = prefixSum[index + 1] / (index + 1);
 
