@@ -8,9 +8,9 @@ public class Solution {
         long[] prefixSum = new long[n + 1];
         long[] suffixSum = new long[n + 1];
 
-        for (int index = 0; index < n; ++index) {
+        for (int index = 1; index <= n; index++) {
             Console.WriteLine(index);
-            prefixSum[index + 1] = prefixSum[index] + nums[index];
+            prefixSum[index] = prefixSum[index-1] + nums[index-1];
         }
 
         for (int index = n - 1; index >= 0; --index) {
