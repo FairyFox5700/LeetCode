@@ -17,19 +17,12 @@ public class Solution {
         }
 
         for (int index = 0; index < n; index++) {
-            // Calculate average of left part of array, index 0 to i.
             long leftPartAverage = prefixSum[index + 1] / (index + 1);
-
-            // Calculate average of right part of array, index i+1 to n-1.
             long rightPartAverage = suffixSum[index + 1];
-            // If right part have 0 elements, then we don't divide by 0.
             if (index != n - 1) {
                 rightPartAverage /= (n - index - 1);
             }
-
             int currDifference = (int)Math.Abs(leftPartAverage - rightPartAverage);
-            // If current difference of averages is smaller,
-            // then current index can be our answer.
             if (currDifference < minAvgDiff) {
                 minAvgDiff = currDifference;
                 ans = index;
