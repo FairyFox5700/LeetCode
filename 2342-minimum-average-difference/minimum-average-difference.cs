@@ -13,8 +13,8 @@ public class Solution {
             prefixSum[index] = prefixSum[index-1] + nums[index-1];
         }
 
-        for (int index = n - 1; index >= 0; --index) {
-            suffixSum[index] = suffixSum[index + 1] + nums[index];
+        for (int index = n; index > 0; index--) {
+            suffixSum[index- 1] = suffixSum[index] + nums[index-1];
         }
 
         for (int index = 0; index < n; ++index) {
