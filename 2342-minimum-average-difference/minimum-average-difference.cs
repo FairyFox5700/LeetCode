@@ -1,5 +1,3 @@
-using System;
-
 public class Solution {
     public int MinimumAverageDifference(int[] nums) {
         int n = nums.Length;
@@ -11,6 +9,7 @@ public class Solution {
         long[] suffixSum = new long[n + 1];
 
         for (int index = 0; index < n; ++index) {
+            Console.WriteLine(index);
             prefixSum[index + 1] = prefixSum[index] + nums[index];
         }
 
