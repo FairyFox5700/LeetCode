@@ -15,7 +15,6 @@
 
                         var strBuilder = new StringBuilder();
                         DFS(grid, r, c, visited, ' ', strBuilder);
-                        Console.WriteLine(strBuilder.ToString());
                         if(!hashSet.Contains(strBuilder.ToString()))
                         {
                             hashSet.Add(strBuilder.ToString());
