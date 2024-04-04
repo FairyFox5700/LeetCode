@@ -1,17 +1,15 @@
 public class Solution {
     public IList<int> FindDuplicates(int[] nums) {
         // array set or sorting
-        var dict = new HashSet<int>();
         var result = new List<int>();
         for(int i = 0; i< nums.Length; i++)
         {
-            if(!dict.Contains(nums[i]))
+            var previousIndex = Math.Abs(nums[i]) -1;
+            if(nums[previousIndex]<0)
             {
-                dict.Add(nums[i]);
+                result.Add(Math.Abs(nums[i]));
             }
-            else {
-                result.Add(nums[i]);
-            }
+            nums[previousIndex]*= -1;
         }
 
         return result;
