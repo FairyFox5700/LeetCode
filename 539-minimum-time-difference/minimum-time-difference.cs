@@ -13,12 +13,10 @@
             }
 
             listTime.Sort();
-            Console.WriteLine(string.Join(",", listTime));
             var min = int.MaxValue;
             for (int i = 1; i < listTime.Count; i++)
             {
                 var diff = Math.Abs(listTime[i]- listTime[i-1]);
-                Console.WriteLine(diff);
                 min = Math.Min(diff , min);
             }
 
