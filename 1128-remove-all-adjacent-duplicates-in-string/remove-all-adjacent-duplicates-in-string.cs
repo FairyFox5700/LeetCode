@@ -1,27 +1,19 @@
 public class Solution {
-    public string RemoveDuplicates(string s) {
-        var stack = new Stack<char>();
-      
+    public string RemoveDuplicates(string s) 
+    {
+        var sb = new StringBuilder();
         for(int i=0; i< s.Length; i++)
         {
-            if( stack.Count == 0 )
+            if(sb.Length != 0 && sb[sb.Length -1] == s[i] )
             {
-                 stack.Push(s[i]);
-            }
-            else if(s[i]== stack.Peek())
-            {
-                stack.Pop();
+                  sb.Remove(sb.Length -1,1);
             }
             else
             {
-                stack.Push(s[i]);
+                sb.Append(s[i]);
             }
         }
         
-       var sb = new StringBuilder();
-        while(stack.Count > 0) {
-            sb.Insert(0, stack.Pop());
-        }
         return sb.ToString();
     }
 }
