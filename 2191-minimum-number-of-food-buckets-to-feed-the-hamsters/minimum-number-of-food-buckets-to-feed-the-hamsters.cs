@@ -3,17 +3,21 @@ public class Solution {
         StringBuilder sb = new StringBuilder(hamsters);
         int res = 0;
         for(int i = 0; i < sb.Length;i++){
-            char prev = (i > 0) ?  sb[i -1] : 'H';
-            char next = (i < sb.Length - 1) ? sb[i + 1] : 'H';            
-
             if(sb[i] == 'H'){
-                if( prev == 'H' && next == 'H') return -1;
-                if(prev == 'O') continue;
-                if(next == '.') sb[i + 1] = 'O';
+                if(!CanFeed(hamsters, i)) 
+                    return -1;
+                if(i < hamsters.Length - 2 && hamsters[i + 1] == '.' && hamsters[i + 2] == 'H')
+                    i += 2;
                 res++;
             }
 
         }
         return res;
+    }
+
+    // can feed only if H surrounded by .
+    private bool CanFeed(string hamsters, int idx) {
+        return (idx > 0 && hamsters[idx - 1] == '.') 
+            || (idx < hamsters.Length - 1 && hamsters[idx + 1] == '.');
     }
 }
