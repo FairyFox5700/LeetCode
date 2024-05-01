@@ -19,8 +19,6 @@ public class Solution
             }
         }
 
-        Console.WriteLine(j);
-
         if (j < 0 || (j >= 0 && currentCapacity > 0 && buses[^1] != passengers[j]))
         {
             return buses[^1]; // Assuming this returns the last bus time if no passengers could catch any bus
