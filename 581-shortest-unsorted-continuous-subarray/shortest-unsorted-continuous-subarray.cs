@@ -1,34 +1,36 @@
 public class Solution {
     public int FindUnsortedSubarray(int[] nums)
     {
-        var stack = new Stack<int>();
-        var max = -1;
-        var min = nums.Length;
-        
-        for (int i = 0; i < nums.Length; i++)
+        var max = int.MinValue;
+        var min = int.MaxValue;
+        for (int i = 1; i < nums.Length; i++)
         {
-            while (stack.Count > 0 && nums[stack.Peek()] > nums[i])
+            //rising slope
+            if (nums[i] < nums[i - 1])
             {
-                min = Math.Min(min, stack.Pop());
+                min = Math.Min(min, nums[i]);
             }
-            stack.Push(i);
         }
         
-        stack.Clear();
-        
-        for (int i = nums.Length - 1; i >= 0; i--)
+        for (int i = nums.Length - 2; i >= 0; i--)
         {
-            while (stack.Count > 0 && nums[stack.Peek()] < nums[i])
+            // falling slope
+            if (nums[i] > nums[i + 1])
             {
-                max = Math.Max(max, stack.Pop());
+                max = Math.Max(max, nums[i]);
             }
-            stack.Push(i);
         }
-
-        if (max == -1 || min == nums.Length)
-            return 0;
-
-        return max - min + 1;
+        int l, r;
+        for (l = 0; l < nums.Length; l++) {
+            if (min < nums[l])
+                break;
+        }
+        for (r = nums.Length - 1; r >= 0; r--) {
+            if (max > nums[r])
+                break;
+        }
+    
+        return r - l < 0 ? 0 : r - l + 1;
     }
     
 }
