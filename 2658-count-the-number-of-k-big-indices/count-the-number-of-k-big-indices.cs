@@ -25,11 +25,11 @@
             var count =0;
             for(int i = nums.Length - 1; i>=0; i--)
             {
-                if(pq.Count == k && pq.Peek() < nums[i]&& hashSet.Contains(i))
-                {  
-                    count++;
-                }
-             pq.Enqueue(nums[i], nums[i]);
+                    if(pq.Count == k && pq.Peek() < nums[i]&& hashSet.Contains(i))
+                    {  
+                        count++;
+                    }
+                    pq.Enqueue(nums[i], nums[i]);
                     if(pq.Count > k) 
                     {
                         pq.Dequeue();
