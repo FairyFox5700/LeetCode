@@ -20,9 +20,7 @@ public class Solution
         {
             if(currentLeft== '0')
             {
-        
                 countOfZeros++;
-
             }
             else
             {
