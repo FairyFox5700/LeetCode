@@ -11,6 +11,7 @@
                     events.Add((range[1], -1));
                 }
 
+                // [1,1]], 1, -1 is cancelling , 1,+1 , but we have one active ( first +1 , then -1)
                 events = events.OrderBy(e => e.Item1)
                     .ThenByDescending(e => e.Item2).ToList();
 
